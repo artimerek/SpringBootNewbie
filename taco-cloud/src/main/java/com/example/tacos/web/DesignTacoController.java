@@ -1,6 +1,7 @@
 package com.example.tacos.web;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,8 @@ import javax.validation.Valid;
 import com.example.tacos.Ingredient;
 import com.example.tacos.Ingredient.Type;
 import com.example.tacos.Taco;
+import com.example.tacos.data.IngredientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -25,6 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/design")
 public class DesignTacoController {
+
+    private final IngredientRepository ingredientRepo;
+
+    @Autowired
+    public DesignTacoController(IngredientRepository ingredientRepo){
+        this.ingredientRepo = ingredientRepo;
+    }
+
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
@@ -48,7 +59,15 @@ public class DesignTacoController {
     }
     @GetMapping
     public String showDesignForm(Model model) {
-        model.addAttribute("design", new Taco());
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepo.findAll().forEach(i -> ingredients.add(i));
+
+        Type[] types = Ingredient.Type.values();
+        for (Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(),
+                    filterByType(ingredients, type));
+        }
+
         return "design";
     }
 
@@ -63,8 +82,7 @@ public class DesignTacoController {
         return "redirect:/orders/current";
     }
 
-    private List<Ingredient> filterByType(
-            List<Ingredient> ingredients, Type type) {
+    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
         return ingredients
                 .stream()
                 .filter(x -> x.getType().equals(type))

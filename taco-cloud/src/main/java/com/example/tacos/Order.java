@@ -7,8 +7,14 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
 public class Order {
+
+  private Long id;
+  private Date placedAt;
+
 
   @NotBlank(message="Pole wymagane")
   private String name;

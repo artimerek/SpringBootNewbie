@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import com.example.tacos.Ingredient;
 import com.example.tacos.Ingredient.Type;
+import com.example.tacos.Order;
 import com.example.tacos.Taco;
 import com.example.tacos.data.IngredientRepository;
 import com.example.tacos.data.TacoRepository;
@@ -34,13 +35,19 @@ public class DesignTacoController {
     private TacoRepository designRepo;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepo){
+    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository designRepo){
         this.ingredientRepo = ingredientRepo;
+        this.designRepo = designRepo;
     }
 
     @ModelAttribute(name = "taco")
     public Taco taco() {
         return new Taco();
+    }
+
+    @ModelAttribute
+    public Order order(){
+        return new Order();
     }
 
 
@@ -60,11 +67,13 @@ public class DesignTacoController {
 
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model) {
+    public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
         if (errors.hasErrors()) {
             return "design";
         }
-        log.info("Processing design: " + design);
+       Taco saved = designRepo.save(design);
+        order.addDesign(saved);
+
 
         return "redirect:/orders/current";
     }

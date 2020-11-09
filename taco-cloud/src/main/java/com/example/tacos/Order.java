@@ -1,4 +1,5 @@
 package com.example.tacos;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -7,14 +8,24 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Data
-public class Order {
+@Entity
+@Table(name="Taco_Order")
+public class Order implements Serializable {
 
+
+  private static final long serialVersionUID = 1L;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  private Date placedAt;
 
+  private Date placedAt;
 
   @NotBlank(message="Pole wymagane")
   private String name;
@@ -40,5 +51,16 @@ public class Order {
 
   @Digits(integer=3, fraction=0, message="Błędny kod CVV")
   private String ccCVV;
+
+  @ManyToMany(targetEntity = Taco.class)
+  private List<Taco> tacos = new ArrayList<>();
+
+  public void addDesign(Taco design) {
+    this.tacos.add(design);
+  }
+  @PrePersist
+  void placedAt(){
+    this.placedAt = new Date();
+  }
 
 }

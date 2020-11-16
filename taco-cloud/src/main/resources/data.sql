@@ -15,8 +15,7 @@ insert into Ingredient (id, name, type)
 insert into Ingredient (id, name, type)
                 values ('TMTO', 'Diced Tomatoes', 'VEGGIES');
 insert into Ingredient (id, name, type)
-                values ('LETC', 'Lettuce', 'VEGGIES');
-insert into Ingredient (id, name, type)
+                values ('LETC', 'Lettuce', 'VEGGIES');insert into Ingredient (id, name, type)
                 values ('CHED', 'Cheddar', 'CHEESE');
 insert into Ingredient (id, name, type)
                 values ('JACK', 'Monterrey Jack', 'CHEESE');

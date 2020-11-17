@@ -1,19 +1,20 @@
 package io.github.artimerek.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotBlank(message = "The description cannot be empty")
     private String description;
     private boolean done;
 
     public Task() {
     }
-
 
     public int getId() {
         return id;

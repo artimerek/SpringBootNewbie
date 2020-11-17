@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,9 +28,15 @@ public class TaskController {
         logger.warn("Exposing all the tasks!");
         return ResponseEntity.ok(repository.findAll());
     }
-    @GetMapping(value = "/tasks")
+    @GetMapping("/tasks")
     ResponseEntity<List<Task>> readAllTasks(Pageable page) {
         logger.info("Custom pageable");
         return ResponseEntity.ok(repository.findAll(page).getContent());
+    }
+
+    @PutMapping("/tasks/{id}")
+    ResponseEntity<?>updateTask(@RequestBody Task toUpdate){
+        repository.save(toUpdate);
+        return ResponseEntity.noContent().build();
     }
 }

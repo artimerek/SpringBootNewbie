@@ -11,6 +11,10 @@ public class Task {
     private String description;
     private boolean done;
 
+    public Task() {
+    }
+
+
     public int getId() {
         return id;
     }

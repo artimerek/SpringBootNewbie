@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "task",
+      "type": "io.github.artimerek.TaskConfigurationProperties",
+      "sourceType": "io.github.artimerek.TaskConfigurationProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "task.allow-multiple-tasks-from-template",
+      "type": "java.lang.Boolean",
+      "sourceType": "io.github.artimerek.TaskConfigurationProperties",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}

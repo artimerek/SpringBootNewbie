@@ -1,7 +1,6 @@
 package io.github.artimerek.controller;
 
 import io.github.artimerek.model.Task;
-import io.github.artimerek.model.SqlTaskRepository;
 import io.github.artimerek.model.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

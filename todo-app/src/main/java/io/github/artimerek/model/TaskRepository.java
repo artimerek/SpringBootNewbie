@@ -19,5 +19,5 @@ public interface TaskRepository {
 
     Page<Task> findAll(Pageable page);
 
-    List<Task> findByDone(@Param(("state")) boolean done);
+    List<Task> findByDone(boolean done);
 }

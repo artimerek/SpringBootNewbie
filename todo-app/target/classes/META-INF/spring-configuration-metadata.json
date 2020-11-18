@@ -4,13 +4,19 @@
       "name": "task",
       "type": "io.github.artimerek.TaskConfigurationProperties",
       "sourceType": "io.github.artimerek.TaskConfigurationProperties"
+    },
+    {
+      "name": "task.template",
+      "type": "io.github.artimerek.TaskConfigurationProperties$Template",
+      "sourceType": "io.github.artimerek.TaskConfigurationProperties",
+      "sourceMethod": "getTemplate()"
     }
   ],
   "properties": [
     {
-      "name": "task.allow-multiple-tasks-from-template",
+      "name": "task.template.allow-multiple-tasks",
       "type": "java.lang.Boolean",
-      "sourceType": "io.github.artimerek.TaskConfigurationProperties",
+      "sourceType": "io.github.artimerek.TaskConfigurationProperties$Template",
       "defaultValue": false
     }
   ],

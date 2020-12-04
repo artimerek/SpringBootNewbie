@@ -7,12 +7,14 @@ import io.github.artimerek.model.TaskRepository;
 import io.github.artimerek.model.projection.GroupReadModel;
 import io.github.artimerek.model.projection.GroupWriteModel;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @Service
+@RequestScope
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;

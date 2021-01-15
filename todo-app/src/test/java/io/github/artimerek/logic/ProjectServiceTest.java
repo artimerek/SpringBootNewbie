@@ -1,6 +1,7 @@
 package io.github.artimerek.logic;
 
 import io.github.artimerek.TaskConfigurationProperties;
+import io.github.artimerek.model.ProjectRepository;
 import io.github.artimerek.model.TaskGroup;
 import io.github.artimerek.model.TaskGroupRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -25,11 +26,7 @@ class ProjectServiceTest {
         var mockGroupRepository = mock(TaskGroupRepository.class);
         when(mockGroupRepository.existsByDoneIsFalseAndAndProject_Id(anyInt())).thenReturn(true);
         //and
-        var mockTemplate = mock(TaskConfigurationProperties.Template.class);
-        when(mockTemplate.isAllowMultipleTasks()).thenReturn(false);
-        //and
-        var mocConfig = mock(TaskConfigurationProperties.class);
-        when(mocConfig.getTemplate()).thenReturn(mockTemplate);
+        TaskConfigurationProperties mocConfig = configurationReturning(false);
         //system under test
         var toTest = new ProjectService(null, mockGroupRepository, mocConfig);
 
@@ -42,7 +39,35 @@ class ProjectServiceTest {
 
 
         }
+        @Test
+        @DisplayName("should throw IllegalArgumentException when configuration ok and no projects for a given id")
+        void createGroup_configurationOk_And_noProjects_throwsIllegalArgumentException() {
+            //given
+            var mockRepository = mock(ProjectRepository.class);
+            when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+            //and
+            TaskConfigurationProperties mocConfig = configurationReturning(true);
+            //system under test
+            var toTest = new ProjectService(mockRepository, null, mocConfig);
+
+            //when
+            var exception = catchThrowable(() ->toTest.createGroup(LocalDateTime.now(),0));
+            // then
+            assertThat(exception)
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("id not found");
 
 
+        }
+
+    private TaskConfigurationProperties configurationReturning(boolean result) {
+        var mockTemplate = mock(TaskConfigurationProperties.Template.class);
+        when(mockTemplate.isAllowMultipleTasks()).thenReturn(result);
+        var mocConfig = mock(TaskConfigurationProperties.class);
+        when(mocConfig.getTemplate()).thenReturn(mockTemplate);
+        return mocConfig;
     }
+
+
+}
 

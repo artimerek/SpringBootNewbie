@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,34 +30,36 @@ class ProjectServiceTest {
         var toTest = new ProjectService(null, mockGroupRepository, mocConfig);
 
         //when
-        var exception = catchThrowable(() ->toTest.createGroup(LocalDateTime.now(),0));
+        var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
         // then
         assertThat(exception)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("one undone group");
 
 
-        }
-        @Test
-        @DisplayName("should throw IllegalArgumentException when configuration ok and no projects for a given id")
-        void createGroup_configurationOk_And_noProjects_throwsIllegalArgumentException() {
-            //given
-            var mockRepository = mock(ProjectRepository.class);
-            when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
-            //and
-            TaskConfigurationProperties mocConfig = configurationReturning(true);
-            //system under test
-            var toTest = new ProjectService(mockRepository, null, mocConfig);
+    }
 
-            //when
-            var exception = catchThrowable(() ->toTest.createGroup(LocalDateTime.now(),0));
-            // then
-            assertThat(exception)
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("id not found");
+    @Test
+    @DisplayName("should throw IllegalArgumentException when configuration ok and no projects for a given id")
+    void createGroup_configurationOk_And_noProjects_throwsIllegalArgumentException() {
+        //given
+        var mockRepository = mock(ProjectRepository.class);
+        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        //and
+        TaskConfigurationProperties mocConfig = configurationReturning(true);
+        //system under test
+        var toTest = new ProjectService(mockRepository, null, mocConfig);
+
+        //when
+        var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
+        // then
+        assertThat(exception)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("id not found");
 
 
-        }
+    }
+
     @Test
     @DisplayName("should throw IllegalArgumentException when configurated to allow just 1 group and no groups and no projects for a given id")
     void createGroup_noMultipleGroupsConfig_And_noUndoneGroupExists_And_noProjects_throwsIllegalArgumentException() {
@@ -72,7 +74,7 @@ class ProjectServiceTest {
         var toTest = new ProjectService(mockRepository, mockGroupRepository, mocConfig);
 
         //when
-        var exception = catchThrowable(() ->toTest.createGroup(LocalDateTime.now(),0));
+        var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
         // then
         assertThat(exception)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -91,7 +93,6 @@ class ProjectServiceTest {
     }
 
 
-
     private TaskGroupRepository groupRepositoryReturning(boolean result) {
         var mockGroupRepository = mock(TaskGroupRepository.class);
         when(mockGroupRepository.existsByDoneIsFalseAndAndProject_Id(anyInt())).thenReturn(result);
@@ -106,5 +107,43 @@ class ProjectServiceTest {
         return mocConfig;
     }
 
+
+    private TaskGroupRepository inMemoryGroupRepository() {
+        return new TaskGroupRepository() {
+            private int index = 0;
+            private Map<Integer, TaskGroup> map = new HashMap<>();
+
+
+            @Override
+            public List<TaskGroup> findAll() {
+                return new ArrayList<>(map.values());
+            }
+
+            @Override
+            public Optional<TaskGroup> findById(Integer id) {
+                return Optional.ofNullable(map.get(id));
+            }
+
+            @Override
+            public TaskGroup save(TaskGroup entity) {
+                if (entity.getId() == 0) {
+                    try {
+                        TaskGroup.class.getDeclaredField("id").set(entity, ++index);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                map.put(entity.getId(), entity);
+                return entity;
+            }
+
+            @Override
+            public boolean existsByDoneIsFalseAndAndProject_Id(Integer projectId) {
+                return false;
+            }
+
+        };
+    }
 }
+
 

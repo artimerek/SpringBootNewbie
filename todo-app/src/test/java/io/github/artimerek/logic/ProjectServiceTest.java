@@ -139,7 +139,9 @@ class ProjectServiceTest {
 
             @Override
             public boolean existsByDoneIsFalseAndAndProject_Id(Integer projectId) {
-                return false;
+                return map.values().stream()
+                        .filter(group -> !group.isDone())
+                        .anyMatch(group -> group.getProject() !=null && group.getProject().getId() == projectId);
             }
 
         };

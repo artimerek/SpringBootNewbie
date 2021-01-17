@@ -87,7 +87,8 @@ class ProjectServiceTest {
         //given
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
-
+        //and
+        TaskGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
         //and
         TaskConfigurationProperties mockConfig = configurationReturning(true);
     }

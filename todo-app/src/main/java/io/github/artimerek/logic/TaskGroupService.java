@@ -20,10 +20,9 @@ public class TaskGroupService {
     private TaskRepository taskRepository;
     private TaskConfigurationProperties config;
 
-    public TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository, TaskConfigurationProperties config) {
+    public TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository) {
         this.repository = repository;
         this.taskRepository = taskRepository;
-        this.config = config;
     }
 
     public GroupReadModel createGroup(GroupWriteModel source){

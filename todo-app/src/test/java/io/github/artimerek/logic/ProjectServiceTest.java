@@ -1,9 +1,7 @@
 package io.github.artimerek.logic;
 
 import io.github.artimerek.TaskConfigurationProperties;
-import io.github.artimerek.model.ProjectRepository;
-import io.github.artimerek.model.TaskGroup;
-import io.github.artimerek.model.TaskGroupRepository;
+import io.github.artimerek.model.*;
 import io.github.artimerek.model.projection.GroupReadModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,7 +88,10 @@ class ProjectServiceTest {
         var today = LocalDate.now().atStartOfDay();
         //and
         var mockRepository = mock(ProjectRepository.class);
-        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockRepository.findById(anyInt()))
+                .thenReturn(Optional.of(
+                        projectWith("bar",Set.of(-1,2))
+                ));
         //and
         InMemoryGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
         int countBeforeCall = inMemoryGroupRepo.count();
@@ -103,13 +104,29 @@ class ProjectServiceTest {
         GroupReadModel result = toTest.createGroup(today, 1);
 
         //then
-        //assertThat(result)
+        assertThat(result.getDescription()).isEqualTo("bar");
+        assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
+        assertThat(result.getTasks()).allMatch(task -> task.getDescription().equals("foo"));
         assertThat(countBeforeCall +1)
                 .isNotEqualTo(inMemoryGroupRepo.count());
 
     }
 
-
+    private Project projectWith(String projectDescription, Set<Integer> daysToDeadline){
+        var result = mock(Project.class);
+        when(result.getDescription()).thenReturn(projectDescription);
+        when(result.getSteps()).thenReturn(
+                daysToDeadline.stream()
+                .map(days -> {
+                    var step = mock(ProjectStep.class);
+                    when(step.getDescription()).thenReturn("foo");
+                    when(step.getDaysToDeadline()).thenReturn(days);
+                    return step;
+                })
+                .collect(Collectors.toSet())
+        );
+        return result;
+    }
 
 
     private TaskGroupRepository groupRepositoryReturning(boolean result) {

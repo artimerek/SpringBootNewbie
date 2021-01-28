@@ -19,7 +19,7 @@ public class LogicConfiguration {
 
     @Bean
     TaskGroupService taskGroupService(TaskGroupRepository taskGroupRepository,
-                                      TaskRepository taskRepository){
+                                      @Qualifier("sqlTaskRepository") TaskRepository taskRepository){
         return new TaskGroupService(taskGroupRepository,taskRepository);
     }
 }

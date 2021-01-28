@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Service
-@RequestScope
+//@Service
+//@RequestScope
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;

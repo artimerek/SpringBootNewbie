@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/info")
-public class InfoController {
+class InfoController {
     private DataSourceProperties dataSource;
     private TaskConfigurationProperties myProp;
 
-    public InfoController(DataSourceProperties dataSource, TaskConfigurationProperties myProp) {
+    InfoController(final DataSourceProperties dataSource, final TaskConfigurationProperties myProp) {
         this.dataSource = dataSource;
         this.myProp = myProp;
     }
 
     @GetMapping("/url")
-    String url(){
+    String url() {
         return dataSource.getUrl();
     }
 
     @GetMapping("/prop")
-    boolean myProp(){
+    boolean myProp() {
         return myProp.getTemplate().isAllowMultipleTasks();
     }
 }

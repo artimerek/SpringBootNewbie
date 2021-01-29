@@ -10,17 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class LoggerInteceptor implements HandlerInterceptor {
-    public static final Logger logger= LoggerFactory.getLogger(LoggerInteceptor.class);
+class LoggerInterceptor implements HandlerInterceptor {
+    private static final Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
         logger.info("[preHandle] " + request.getMethod() + " " + request.getRequestURI());
         return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        logger.info("[postHandle]");
     }
 }

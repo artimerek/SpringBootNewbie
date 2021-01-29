@@ -3,6 +3,7 @@ package io.github.artimerek.controller;
 
 import io.github.artimerek.model.Task;
 import io.github.artimerek.model.TaskRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,24 +26,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TaskController.class)
-public class TaskControllerLightIntegrationTest {
+class TaskControllerLightIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private TaskRepository repository;
+    private TaskRepository repo;
 
     @Test
     void httpGet_returnsGivenTask() throws Exception {
-        //given
+        // given
         String description = "foo";
-        when(repository.findById(anyInt()))
-                .thenReturn(Optional.of(new Task("foo", LocalDateTime.now())));
+        when(repo.findById(anyInt()))
+                .thenReturn(Optional.of(new Task(description, LocalDateTime.now())));
 
-
-        //when + then
+        // when + then
         mockMvc.perform(get("/tasks/123"))
                 .andDo(print())
-                .andExpect(content().string(containsString(description)));
+                .andExpect(content().string(Matchers.containsString(description)));
     }
 }

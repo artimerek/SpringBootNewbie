@@ -19,21 +19,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@ActiveProfiles("integration")
 @AutoConfigureMockMvc
-public class TaskControllerIntegrationTest {
+@ActiveProfiles("integration")
+class TaskControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private TaskRepository repository;
+    private TaskRepository repo;
 
     @Test
     void httpGet_returnsGivenTask() throws Exception {
-        //given
-        int id = repository.save(new Task("foo", LocalDateTime.now())).getId();
+        // given
+        int id = repo.save(new Task("foo", LocalDateTime.now())).getId();
 
-        //when + then
+        // when + then
         mockMvc.perform(get("/tasks/" + id))
                 .andExpect(status().is2xxSuccessful());
     }

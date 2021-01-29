@@ -1,6 +1,7 @@
 package io.github.artimerek.model.projection;
 
 import io.github.artimerek.model.Task;
+import io.github.artimerek.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +24,7 @@ public class GroupTaskWriteModel {
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-    public Task toTask(){
-        return  new Task(description, deadline);
+    public Task toTask(TaskGroup group){
+        return  new Task(description, deadline, group);
     }
 }

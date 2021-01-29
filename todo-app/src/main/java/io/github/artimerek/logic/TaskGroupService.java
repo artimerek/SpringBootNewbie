@@ -20,7 +20,8 @@ public class TaskGroupService {
     private TaskRepository taskRepository;
     private TaskConfigurationProperties config;
 
-    public TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository) {
+    public TaskGroupService(TaskGroupRepository repository,
+                            TaskRepository taskRepository) {
         this.repository = repository;
         this.taskRepository = taskRepository;
     }

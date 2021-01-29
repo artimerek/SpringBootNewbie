@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 public class LogicConfiguration {
     @Bean
     ProjectService projectService(ProjectRepository repository, TaskGroupRepository taskGroupRepository,
-                           TaskConfigurationProperties config
+                                  TaskGroupService taskGroupService,TaskConfigurationProperties config
     ){
-        return new ProjectService(repository, taskGroupRepository, config);
+        return new ProjectService(repository, taskGroupRepository,taskGroupService, config);
     }
 
     @Bean

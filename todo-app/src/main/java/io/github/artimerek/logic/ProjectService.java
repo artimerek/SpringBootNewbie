@@ -16,16 +16,16 @@ public class ProjectService {
 
     private ProjectRepository repository;
     private TaskGroupRepository taskGroupRepository;
+    private TaskGroupService taskGroupService;
     private TaskConfigurationProperties config;
-    private TaskGroupService service;
 
 
     public ProjectService(ProjectRepository repository, TaskGroupRepository taskGroupRepository,
-                          TaskConfigurationProperties config, TaskGroupService service) {
+                          TaskGroupService taskGroupService,TaskConfigurationProperties config) {
         this.repository = repository;
         this.taskGroupRepository = taskGroupRepository;
+        this.taskGroupService = taskGroupService;
         this.config = config;
-        this.service = service;
     }
 
     public List<Project> readAll(){
@@ -54,7 +54,7 @@ public class ProjectService {
                                        }
                                     ).collect(Collectors.toSet())
                     );
-                    return service.createGroup(targetGroup);
+                    return taskGroupService.createGroup(targetGroup);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
     }
 

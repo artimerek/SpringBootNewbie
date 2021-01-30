@@ -5,6 +5,7 @@ import io.github.artimerek.model.ProjectStep;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,11 @@ public class ProjectWriteModel {
     @NotBlank(message = "Project's description must not be empty")
     private String description;
     @Valid
-    private List<ProjectStep> steps;
+    private List<ProjectStep> steps = new ArrayList<>();
+
+    public ProjectWriteModel(){
+        steps.add(new ProjectStep());
+    }
 
     public List<ProjectStep> getSteps() {
         return steps;

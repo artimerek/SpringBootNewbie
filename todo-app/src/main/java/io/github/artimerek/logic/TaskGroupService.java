@@ -1,6 +1,7 @@
 package io.github.artimerek.logic;
 
 import io.github.artimerek.TaskConfigurationProperties;
+import io.github.artimerek.model.Project;
 import io.github.artimerek.model.TaskGroup;
 import io.github.artimerek.model.TaskGroupRepository;
 import io.github.artimerek.model.TaskRepository;
@@ -25,7 +26,11 @@ public class TaskGroupService {
     }
 
     public GroupReadModel createGroup(final GroupWriteModel source) {
-        TaskGroup result = repository.save(source.toGroup());
+       return createGroup(source,null);
+    }
+
+    public GroupReadModel createGroup(GroupWriteModel source, Project project) {
+        TaskGroup result = repository.save(source.toGroup(project));
         return new GroupReadModel(result);
     }
 
@@ -44,4 +49,5 @@ public class TaskGroupService {
         result.setDone(!result.isDone());
         repository.save(result);
     }
+
 }

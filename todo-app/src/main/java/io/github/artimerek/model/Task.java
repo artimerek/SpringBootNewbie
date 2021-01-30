@@ -47,7 +47,7 @@ public class Task {
         return description;
     }
 
-    void setDescription(final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -63,7 +63,7 @@ public class Task {
         return deadline;
     }
 
-    void setDeadline(final LocalDateTime deadline) {
+    public void setDeadline(final LocalDateTime deadline) {
         this.deadline = deadline;
     }
 

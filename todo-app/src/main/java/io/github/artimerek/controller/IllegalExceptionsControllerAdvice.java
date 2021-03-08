@@ -3,8 +3,9 @@ package io.github.artimerek.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice()
+@RestControllerAdvice(annotations = IllegalExceptionProcessing.class)
 public class IllegalExceptionsControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {

@@ -1,5 +1,6 @@
 package pl.artimerek.shop.student;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +44,26 @@ public class StudentService {
          studentRepository.deleteById(studentId);
     }
 
+    @Transactional
+    public void updateStudent(Long studentId, String name, String email) {
 
+
+        Student student = studentRepository.findById(studentId).orElseThrow(
+                () -> new IllegalStateException("Student with "+studentId + "does not exits"));
+
+        if(name != null && name.length() > 0)
+            student.setName(name);
+        else
+            throw new IllegalStateException("Given name is wrong");
+
+
+
+        if(email!= null && email.length() > 0)
+            student.setEmail(email);
+        else
+            throw new IllegalStateException("Given email is wrong");
+
+
+
+    }
 }

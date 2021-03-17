@@ -1,7 +1,5 @@
 package pl.artimerek.shop.student;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -20,7 +18,7 @@ public class Student {
     generator = "student_sequence")
     private Long id;
     private String name;
-    private String eMail;
+    private String email;
     private LocalDate dob;
     @Transient
     private Integer age;
@@ -28,17 +26,17 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, String eMail, LocalDate dob) {
+    public Student(Long id, String name, String email, LocalDate dob) {
         this.id = id;
         this.name = name;
-        this.eMail = eMail;
+        this.email = email;
         this.dob = dob;
 
     }
 
-    public Student(String name, String eMail, LocalDate dob) {
+    public Student(String name, String email, LocalDate dob) {
         this.name = name;
-        this.eMail = eMail;
+        this.email = email;
         this.dob = dob;
     }
 
@@ -58,12 +56,12 @@ public class Student {
         this.name = name;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String eMail) {
+        this.email = eMail;
     }
 
     public LocalDate getDob() {
@@ -87,7 +85,7 @@ public class Student {
         return "Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", eMail='" + eMail + '\'' +
+                ", eMail='" + email + '\'' +
                 ", dob=" + dob +
                 ", age=" + age +
                 '}';

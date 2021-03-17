@@ -1,13 +1,10 @@
 package pl.artimerek.shop.student;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,12 +55,14 @@ public class StudentService {
 
 
 
-        if(email!= null && email.length() > 0)
+        if(email!= null && email.length() > 0){
+            Optional<Student> studentOptional =
+                    studentRepository.findStudentByEmail(email);
+            if (studentOptional.isPresent()) {
+                throw new IllegalStateException("Given email is wrong");
+            }
+        }
             student.setEmail(email);
-        else
-            throw new IllegalStateException("Given email is wrong");
-
-
 
     }
 }

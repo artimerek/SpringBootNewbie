@@ -5,14 +5,20 @@ server:
 
 spring:
   datasource:
-    password:
-      url: jdbc:postgresql://localhost:5432/regitration
-      username:
-    jpa:
+      driver-class-name: org.postgresql.Driver
+      username: artimerek
+      password: root
+      url: jdbc:postgresql://localhost:5432/registration
+      platform: postgres
+      initialization-mode: always
+      continue-on-error: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
       hibernate:
-        ddl-auto: create-drop
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
-          format_sql: true
-      show-sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+

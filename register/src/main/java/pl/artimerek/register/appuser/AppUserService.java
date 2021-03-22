@@ -8,6 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.artimerek.register.registration.token.ConfirmationToken;
+import pl.artimerek.register.registration.token.ConfirmationTokenService;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Service
@@ -18,6 +23,7 @@ public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email)
@@ -42,7 +48,17 @@ public class AppUserService implements UserDetailsService {
 
         appUserRepository.save(appUser);
 
-        return encodedPassword;
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15),
+                appUser
+        );
+
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        return token;
     }
 
 }

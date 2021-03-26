@@ -14,8 +14,6 @@ public class Publisher {
     private String address;
 
 
-
-
     public Publisher(String firstName, String address) {
         this.firstName = firstName;
         this.address = address;

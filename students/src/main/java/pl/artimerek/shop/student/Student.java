@@ -15,7 +15,7 @@ public class Student {
             allocationSize = 1
     )
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-    generator = "student_sequence")
+            generator = "student_sequence")
     private Long id;
     private String name;
     private String email;
@@ -73,7 +73,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return Period.between(this.dob,LocalDate.now()).getYears();
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {

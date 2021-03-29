@@ -18,7 +18,7 @@ public class StudentService {
     }
 
 
-    public List<Student> getStudents(){
+    public List<Student> getStudents() {
         return studentRepository.findAll();
     }
 
@@ -26,19 +26,19 @@ public class StudentService {
         Optional<Student> studentByEMail = studentRepository
                 .findStudentByEmail(student.getEmail());
 
-        if(studentByEMail.isPresent()){
+        if (studentByEMail.isPresent()) {
             throw new IllegalStateException("email taken");
         }
 
         studentRepository.save(student);
     }
 
-    public void deleteStudent(Long studentId){
-         boolean exits = studentRepository.existsById(studentId);
-         if(!exits){
-             throw new IllegalStateException("student with id" + studentId + " doesn't exists");
-         }
-         studentRepository.deleteById(studentId);
+    public void deleteStudent(Long studentId) {
+        boolean exits = studentRepository.existsById(studentId);
+        if (!exits) {
+            throw new IllegalStateException("student with id" + studentId + " doesn't exists");
+        }
+        studentRepository.deleteById(studentId);
     }
 
     @Transactional
@@ -46,23 +46,22 @@ public class StudentService {
 
 
         Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new IllegalStateException("Student with "+studentId + "does not exits"));
+                () -> new IllegalStateException("Student with " + studentId + "does not exits"));
 
-        if(name != null && name.length() > 0)
+        if (name != null && name.length() > 0)
             student.setName(name);
         else
             throw new IllegalStateException("Given name is wrong");
 
 
-
-        if(email!= null && email.length() > 0){
+        if (email != null && email.length() > 0) {
             Optional<Student> studentOptional =
                     studentRepository.findStudentByEmail(email);
             if (studentOptional.isPresent()) {
                 throw new IllegalStateException("Given email is wrong");
             }
         }
-            student.setEmail(email);
+        student.setEmail(email);
 
     }
 }

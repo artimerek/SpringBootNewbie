@@ -30,6 +30,12 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
+    @ManyToMany
+    @JoinTable(name = "recipes_categories", joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+
+    private Set<Category> categories;
+
     public Set<Ingredient> getIngredientSet() {
         return ingredientSet;
     }
@@ -124,5 +130,13 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

@@ -1,0 +1,15 @@
+INSERT INTO category (description) VALUES ('American');
+INSERT INTO category (description) VALUES ('Italian');
+INSERT INTO category (description) VALUES ('Mexican');
+INSERT INTO category (description) VALUES ('Fast Food');
+INSERT INTO category (description) VALUES ('Homemade');
+INSERT INTO unit (description) VALUES ('Teaspoon');
+INSERT INTO unit (description) VALUES ('Tablespoon');
+INSERT INTO unit (description) VALUES ('Cup');
+INSERT INTO unit (description) VALUES ('Pinch');
+INSERT INTO unit (description) VALUES ('Ounce');
+INSERT INTO unit (description) VALUES ('Each');
+INSERT INTO unit (description) VALUES ('Dash');
+INSERT INTO unit (description) VALUES ('Pint');
+INSERT INTO unit (description) VALUES ('Grams');
+INSERT INTO unit (description) VALUES ('Militers');

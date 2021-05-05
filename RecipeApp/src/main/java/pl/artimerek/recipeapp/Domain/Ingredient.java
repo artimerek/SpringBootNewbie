@@ -28,6 +28,12 @@ public class Ingredient {
         this.unit = unit;
     }
 
+    public Ingredient(String description, BigDecimal amount, Unit unit) {
+        this.description = description;
+        this.amount = amount;
+        this.unit = unit;
+    }
+
     public Long getId() {
         return id;
     }
